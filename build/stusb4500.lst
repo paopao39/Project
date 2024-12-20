@@ -1,0 +1,686 @@
+ARM GAS  C:\Users\0.0\AppData\Local\Temp\cc8GmXHj.s 			page 1
+
+
+   1              		.cpu cortex-m0
+   2              		.arch armv6s-m
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 0
+  12              		.eabi_attribute 18, 4
+  13              		.file	"stusb4500.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.file 1 "Src/stusb4500.c"
+  18              		.section	.text.read_register,"ax",%progbits
+  19              		.align	1
+  20              		.syntax unified
+  21              		.code	16
+  22              		.thumb_func
+  24              	read_register:
+  25              	.LVL0:
+  26              	.LFB37:
+   1:Src/stusb4500.c **** /*
+   2:Src/stusb4500.c ****  * STUSB4500 I2C Driver
+   3:Src/stusb4500.c ****  *
+   4:Src/stusb4500.c ****  * Largely based on ST firmware example: https://github.com/usb-c/STUSB4500/tree/master/Firmware/Pr
+   5:Src/stusb4500.c ****  * Otter-Iron support added by J.Whittington 2020
+   6:Src/stusb4500.c ****  *
+   7:Src/stusb4500.c ****  */
+   8:Src/stusb4500.c **** #include "stusb4500.h"
+   9:Src/stusb4500.c **** 
+  10:Src/stusb4500.c **** USB_PD_SNK_PDO_TypeDef pdo_profile[3];
+  11:Src/stusb4500.c **** extern I2C_HandleTypeDef hi2c2;
+  12:Src/stusb4500.c **** 
+  13:Src/stusb4500.c **** static HAL_StatusTypeDef read_register(uint8_t device, uint8_t reg, uint8_t *data, uint8_t len)
+  14:Src/stusb4500.c **** {
+  27              		.loc 1 14 1 view -0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 0
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31              		.loc 1 14 1 is_stmt 0 view .LVU1
+  32 0000 30B5     		push	{r4, r5, lr}
+  33              	.LCFI0:
+  34              		.cfi_def_cfa_offset 12
+  35              		.cfi_offset 4, -12
+  36              		.cfi_offset 5, -8
+  37              		.cfi_offset 14, -4
+  38 0002 85B0     		sub	sp, sp, #20
+  39              	.LCFI1:
+  40              		.cfi_def_cfa_offset 32
+  41 0004 0C00     		movs	r4, r1
+  15:Src/stusb4500.c ****   return HAL_I2C_Mem_Read(&hi2c2, (device << 1), (uint16_t) reg, I2C_MEMADD_SIZE_8BIT, data, len, 1
+  42              		.loc 1 15 3 is_stmt 1 view .LVU2
+  43              		.loc 1 15 10 is_stmt 0 view .LVU3
+ARM GAS  C:\Users\0.0\AppData\Local\Temp\cc8GmXHj.s 			page 2
+
+
+  44 0006 4100     		lsls	r1, r0, #1
+  45              	.LVL1:
+  46              		.loc 1 15 10 view .LVU4
+  47 0008 0548     		ldr	r0, .L2
+  48              	.LVL2:
+  49              		.loc 1 15 10 view .LVU5
+  50 000a FA25     		movs	r5, #250
+  51 000c AD00     		lsls	r5, r5, #2
+  52 000e 0295     		str	r5, [sp, #8]
+  53 0010 0193     		str	r3, [sp, #4]
+  54 0012 0092     		str	r2, [sp]
+  55 0014 0123     		movs	r3, #1
+  56              	.LVL3:
+  57              		.loc 1 15 10 view .LVU6
+  58 0016 2200     		movs	r2, r4
+  59              	.LVL4:
+  60              		.loc 1 15 10 view .LVU7
+  61 0018 FFF7FEFF 		bl	HAL_I2C_Mem_Read
+  62              	.LVL5:
+  16:Src/stusb4500.c **** }
+  63              		.loc 1 16 1 view .LVU8
+  64 001c 05B0     		add	sp, sp, #20
+  65              		@ sp needed
+  66              	.LVL6:
+  67              		.loc 1 16 1 view .LVU9
+  68 001e 30BD     		pop	{r4, r5, pc}
+  69              	.L3:
+  70              		.align	2
+  71              	.L2:
+  72 0020 00000000 		.word	hi2c2
+  73              		.cfi_endproc
+  74              	.LFE37:
+  76              		.section	.text.write_register,"ax",%progbits
+  77              		.align	1
+  78              		.syntax unified
+  79              		.code	16
+  80              		.thumb_func
+  82              	write_register:
+  83              	.LVL7:
+  84              	.LFB38:
+  17:Src/stusb4500.c **** 
+  18:Src/stusb4500.c **** static HAL_StatusTypeDef write_register(uint8_t device, uint8_t reg, uint8_t *data, uint8_t len)
+  19:Src/stusb4500.c **** {
+  85              		.loc 1 19 1 is_stmt 1 view -0
+  86              		.cfi_startproc
+  87              		@ args = 0, pretend = 0, frame = 0
+  88              		@ frame_needed = 0, uses_anonymous_args = 0
+  89              		.loc 1 19 1 is_stmt 0 view .LVU11
+  90 0000 30B5     		push	{r4, r5, lr}
+  91              	.LCFI2:
+  92              		.cfi_def_cfa_offset 12
+  93              		.cfi_offset 4, -12
+  94              		.cfi_offset 5, -8
+  95              		.cfi_offset 14, -4
+  96 0002 85B0     		sub	sp, sp, #20
+  97              	.LCFI3:
+  98              		.cfi_def_cfa_offset 32
+ARM GAS  C:\Users\0.0\AppData\Local\Temp\cc8GmXHj.s 			page 3
+
+
+  99 0004 0C00     		movs	r4, r1
+  20:Src/stusb4500.c ****   return HAL_I2C_Mem_Write(&hi2c2, (device << 1), (uint16_t) reg, I2C_MEMADD_SIZE_8BIT, data, len, 
+ 100              		.loc 1 20 3 is_stmt 1 view .LVU12
+ 101              		.loc 1 20 10 is_stmt 0 view .LVU13
+ 102 0006 4100     		lsls	r1, r0, #1
+ 103              	.LVL8:
+ 104              		.loc 1 20 10 view .LVU14
+ 105 0008 0548     		ldr	r0, .L5
+ 106              	.LVL9:
+ 107              		.loc 1 20 10 view .LVU15
+ 108 000a FA25     		movs	r5, #250
+ 109 000c AD00     		lsls	r5, r5, #2
+ 110 000e 0295     		str	r5, [sp, #8]
+ 111 0010 0193     		str	r3, [sp, #4]
+ 112 0012 0092     		str	r2, [sp]
+ 113 0014 0123     		movs	r3, #1
+ 114              	.LVL10:
+ 115              		.loc 1 20 10 view .LVU16
+ 116 0016 2200     		movs	r2, r4
+ 117              	.LVL11:
+ 118              		.loc 1 20 10 view .LVU17
+ 119 0018 FFF7FEFF 		bl	HAL_I2C_Mem_Write
+ 120              	.LVL12:
+  21:Src/stusb4500.c **** }
+ 121              		.loc 1 21 1 view .LVU18
+ 122 001c 05B0     		add	sp, sp, #20
+ 123              		@ sp needed
+ 124              	.LVL13:
+ 125              		.loc 1 21 1 view .LVU19
+ 126 001e 30BD     		pop	{r4, r5, pc}
+ 127              	.L6:
+ 128              		.align	2
+ 129              	.L5:
+ 130 0020 00000000 		.word	hi2c2
+ 131              		.cfi_endproc
+ 132              	.LFE38:
+ 134              		.section	.text.stusb_read_rdo,"ax",%progbits
+ 135              		.align	1
+ 136              		.global	stusb_read_rdo
+ 137              		.syntax unified
+ 138              		.code	16
+ 139              		.thumb_func
+ 141              	stusb_read_rdo:
+ 142              	.LVL14:
+ 143              	.LFB39:
+  22:Src/stusb4500.c **** 
+  23:Src/stusb4500.c **** HAL_StatusTypeDef stusb_read_rdo(STUSB_GEN1S_RDO_REG_STATUS_RegTypeDef *Nego_RDO) {
+ 144              		.loc 1 23 83 is_stmt 1 view -0
+ 145              		.cfi_startproc
+ 146              		@ args = 0, pretend = 0, frame = 0
+ 147              		@ frame_needed = 0, uses_anonymous_args = 0
+ 148              		.loc 1 23 83 is_stmt 0 view .LVU21
+ 149 0000 10B5     		push	{r4, lr}
+ 150              	.LCFI4:
+ 151              		.cfi_def_cfa_offset 8
+ 152              		.cfi_offset 4, -8
+ 153              		.cfi_offset 14, -4
+ARM GAS  C:\Users\0.0\AppData\Local\Temp\cc8GmXHj.s 			page 4
+
+
+ 154 0002 0200     		movs	r2, r0
+  24:Src/stusb4500.c ****   HAL_StatusTypeDef ret;
+ 155              		.loc 1 24 3 is_stmt 1 view .LVU22
+  25:Src/stusb4500.c ****   ret = read_register(STUSB4500_ADDR, (uint16_t) RDO_REG_STATUS, (uint8_t *) Nego_RDO, 4);
+ 156              		.loc 1 25 3 view .LVU23
+ 157              		.loc 1 25 9 is_stmt 0 view .LVU24
+ 158 0004 0423     		movs	r3, #4
+ 159 0006 9121     		movs	r1, #145
+ 160 0008 2820     		movs	r0, #40
+ 161              	.LVL15:
+ 162              		.loc 1 25 9 view .LVU25
+ 163 000a FFF7FEFF 		bl	read_register
+ 164              	.LVL16:
+  26:Src/stusb4500.c **** 
+  27:Src/stusb4500.c ****   return ret;
+ 165              		.loc 1 27 3 is_stmt 1 view .LVU26
+  28:Src/stusb4500.c **** }
+ 166              		.loc 1 28 1 is_stmt 0 view .LVU27
+ 167              		@ sp needed
+ 168 000e 10BD     		pop	{r4, pc}
+ 169              		.cfi_endproc
+ 170              	.LFE39:
+ 172              		.global	__aeabi_uidiv
+ 173              		.section	.text.stusb_update_pdo,"ax",%progbits
+ 174              		.align	1
+ 175              		.global	stusb_update_pdo
+ 176              		.syntax unified
+ 177              		.code	16
+ 178              		.thumb_func
+ 180              	stusb_update_pdo:
+ 181              	.LVL17:
+ 182              	.LFB40:
+  29:Src/stusb4500.c **** 
+  30:Src/stusb4500.c **** HAL_StatusTypeDef stusb_update_pdo(uint8_t pdo_number, uint16_t voltage_mv, uint16_t current_ma) {
+ 183              		.loc 1 30 98 is_stmt 1 view -0
+ 184              		.cfi_startproc
+ 185              		@ args = 0, pretend = 0, frame = 48
+ 186              		@ frame_needed = 0, uses_anonymous_args = 0
+ 187              		.loc 1 30 98 is_stmt 0 view .LVU29
+ 188 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+ 189              	.LCFI5:
+ 190              		.cfi_def_cfa_offset 20
+ 191              		.cfi_offset 4, -20
+ 192              		.cfi_offset 5, -16
+ 193              		.cfi_offset 6, -12
+ 194              		.cfi_offset 7, -8
+ 195              		.cfi_offset 14, -4
+ 196 0002 8DB0     		sub	sp, sp, #52
+ 197              	.LCFI6:
+ 198              		.cfi_def_cfa_offset 72
+ 199 0004 0700     		movs	r7, r0
+ 200 0006 0191     		str	r1, [sp, #4]
+ 201 0008 1500     		movs	r5, r2
+  31:Src/stusb4500.c ****   HAL_StatusTypeDef ret;
+ 202              		.loc 1 31 3 is_stmt 1 view .LVU30
+  32:Src/stusb4500.c ****   uint16_t addr;
+ 203              		.loc 1 32 3 view .LVU31
+ARM GAS  C:\Users\0.0\AppData\Local\Temp\cc8GmXHj.s 			page 5
+
+
+  33:Src/stusb4500.c ****   uint8_t data[40];
+ 204              		.loc 1 33 3 view .LVU32
+  34:Src/stusb4500.c ****   uint8_t i, j = 0;
+ 205              		.loc 1 34 3 view .LVU33
+ 206              	.LVL18:
+  35:Src/stusb4500.c **** 
+  36:Src/stusb4500.c ****   // get existing
+  37:Src/stusb4500.c ****   addr = DPM_SNK_PDO1;
+ 207              		.loc 1 37 3 view .LVU34
+  38:Src/stusb4500.c ****   ret = read_register(STUSB4500_ADDR, addr, data, 12);
+ 208              		.loc 1 38 3 view .LVU35
+ 209              		.loc 1 38 9 is_stmt 0 view .LVU36
+ 210 000a 0C23     		movs	r3, #12
+ 211 000c 02AA     		add	r2, sp, #8
+ 212              	.LVL19:
+ 213              		.loc 1 38 9 view .LVU37
+ 214 000e 8521     		movs	r1, #133
+ 215              	.LVL20:
+ 216              		.loc 1 38 9 view .LVU38
+ 217 0010 2820     		movs	r0, #40
+ 218              	.LVL21:
+ 219              		.loc 1 38 9 view .LVU39
+ 220 0012 FFF7FEFF 		bl	read_register
+ 221              	.LVL22:
+  39:Src/stusb4500.c ****   for (i = 0 ; i < 3 ; i++) { pdo_profile[i].d32 = (uint32_t) (data[j] +(data[j+1]<<8)+(data[j+2]<<
+ 222              		.loc 1 39 3 is_stmt 1 view .LVU40
+  34:Src/stusb4500.c **** 
+ 223              		.loc 1 34 14 is_stmt 0 view .LVU41
+ 224 0016 0023     		movs	r3, #0
+ 225              		.loc 1 39 10 view .LVU42
+ 226 0018 0022     		movs	r2, #0
+ 227              		.loc 1 39 3 view .LVU43
+ 228 001a 15E0     		b	.L9
+ 229              	.LVL23:
+ 230              	.L10:
+ 231              		.loc 1 39 31 is_stmt 1 discriminator 3 view .LVU44
+ 232              		.loc 1 39 68 is_stmt 0 discriminator 3 view .LVU45
+ 233 001c 02A9     		add	r1, sp, #8
+ 234 001e CC5C     		ldrb	r4, [r1, r3]
+ 235              		.loc 1 39 80 discriminator 3 view .LVU46
+ 236 0020 591C     		adds	r1, r3, #1
+ 237              		.loc 1 39 78 discriminator 3 view .LVU47
+ 238 0022 02AE     		add	r6, sp, #8
+ 239 0024 715C     		ldrb	r1, [r6, r1]
+ 240              		.loc 1 39 83 discriminator 3 view .LVU48
+ 241 0026 0902     		lsls	r1, r1, #8
+ 242              		.loc 1 39 72 discriminator 3 view .LVU49
+ 243 0028 6418     		adds	r4, r4, r1
+ 244              		.loc 1 39 95 discriminator 3 view .LVU50
+ 245 002a 991C     		adds	r1, r3, #2
+ 246              		.loc 1 39 93 discriminator 3 view .LVU51
+ 247 002c 715C     		ldrb	r1, [r6, r1]
+ 248              		.loc 1 39 98 discriminator 3 view .LVU52
+ 249 002e 0904     		lsls	r1, r1, #16
+ 250              		.loc 1 39 87 discriminator 3 view .LVU53
+ 251 0030 6418     		adds	r4, r4, r1
+ 252              		.loc 1 39 111 discriminator 3 view .LVU54
+ARM GAS  C:\Users\0.0\AppData\Local\Temp\cc8GmXHj.s 			page 6
+
+
+ 253 0032 D91C     		adds	r1, r3, #3
+ 254              		.loc 1 39 109 discriminator 3 view .LVU55
+ 255 0034 715C     		ldrb	r1, [r6, r1]
+ 256              		.loc 1 39 114 discriminator 3 view .LVU56
+ 257 0036 0906     		lsls	r1, r1, #24
+ 258              		.loc 1 39 103 discriminator 3 view .LVU57
+ 259 0038 6418     		adds	r4, r4, r1
+ 260              		.loc 1 39 50 discriminator 3 view .LVU58
+ 261 003a 2349     		ldr	r1, .L15
+ 262 003c D600     		lsls	r6, r2, #3
+ 263 003e 7450     		str	r4, [r6, r1]
+  40:Src/stusb4500.c ****     j += 4;
+ 264              		.loc 1 40 5 is_stmt 1 view .LVU59
+ 265              		.loc 1 40 7 is_stmt 0 view .LVU60
+ 266 0040 0433     		adds	r3, r3, #4
+ 267              	.LVL24:
+ 268              		.loc 1 40 7 view .LVU61
+ 269 0042 DBB2     		uxtb	r3, r3
+ 270              	.LVL25:
+  39:Src/stusb4500.c ****   for (i = 0 ; i < 3 ; i++) { pdo_profile[i].d32 = (uint32_t) (data[j] +(data[j+1]<<8)+(data[j+2]<<
+ 271              		.loc 1 39 25 is_stmt 1 discriminator 3 view .LVU62
+ 272 0044 0132     		adds	r2, r2, #1
+ 273              	.LVL26:
+  39:Src/stusb4500.c ****   for (i = 0 ; i < 3 ; i++) { pdo_profile[i].d32 = (uint32_t) (data[j] +(data[j+1]<<8)+(data[j+2]<<
+ 274              		.loc 1 39 25 is_stmt 0 discriminator 3 view .LVU63
+ 275 0046 D2B2     		uxtb	r2, r2
+ 276              	.LVL27:
+ 277              	.L9:
+  39:Src/stusb4500.c ****   for (i = 0 ; i < 3 ; i++) { pdo_profile[i].d32 = (uint32_t) (data[j] +(data[j+1]<<8)+(data[j+2]<<
+ 278              		.loc 1 39 18 is_stmt 1 discriminator 1 view .LVU64
+ 279 0048 022A     		cmp	r2, #2
+ 280 004a E7D9     		bls	.L10
+  41:Src/stusb4500.c ****   }
+  42:Src/stusb4500.c **** 
+  43:Src/stusb4500.c ****   // update
+  44:Src/stusb4500.c ****   if ((pdo_number == 1) || (pdo_number == 2) || (pdo_number == 3)) {
+ 281              		.loc 1 44 3 view .LVU65
+ 282              		.loc 1 44 46 is_stmt 0 view .LVU66
+ 283 004c 7B1E     		subs	r3, r7, #1
+ 284              	.LVL28:
+ 285              		.loc 1 44 46 view .LVU67
+ 286 004e DBB2     		uxtb	r3, r3
+ 287              		.loc 1 44 6 view .LVU68
+ 288 0050 022B     		cmp	r3, #2
+ 289 0052 27D8     		bhi	.L11
+  45:Src/stusb4500.c ****     pdo_profile[pdo_number - 1].fix.Operationnal_Current = current_ma / 10;
+ 290              		.loc 1 45 5 is_stmt 1 view .LVU69
+ 291              		.loc 1 45 28 is_stmt 0 view .LVU70
+ 292 0054 7C1E     		subs	r4, r7, #1
+ 293              		.loc 1 45 71 view .LVU71
+ 294 0056 0A21     		movs	r1, #10
+ 295 0058 2800     		movs	r0, r5
+ 296              	.LVL29:
+ 297              		.loc 1 45 71 view .LVU72
+ 298 005a FFF7FEFF 		bl	__aeabi_uidiv
+ 299              	.LVL30:
+ 300              		.loc 1 45 58 view .LVU73
+ARM GAS  C:\Users\0.0\AppData\Local\Temp\cc8GmXHj.s 			page 7
+
+
+ 301 005e 1A4A     		ldr	r2, .L15
+ 302 0060 E100     		lsls	r1, r4, #3
+ 303 0062 8005     		lsls	r0, r0, #22
+ 304 0064 800D     		lsrs	r0, r0, #22
+ 305 0066 8B5A     		ldrh	r3, [r1, r2]
+ 306 0068 9B0A     		lsrs	r3, r3, #10
+ 307 006a 9B02     		lsls	r3, r3, #10
+ 308 006c 0343     		orrs	r3, r0
+ 309 006e 8B52     		strh	r3, [r1, r2]
+  46:Src/stusb4500.c ****     if (pdo_number == 1) {
+ 310              		.loc 1 46 5 is_stmt 1 view .LVU74
+ 311              		.loc 1 46 8 is_stmt 0 view .LVU75
+ 312 0070 012F     		cmp	r7, #1
+ 313 0072 19D0     		beq	.L14
+  47:Src/stusb4500.c ****       //force 5V for PDO_1 to follow the USB PD spec
+  48:Src/stusb4500.c ****       pdo_profile[pdo_number - 1].fix.Voltage = 100; // 5000/50=100
+  49:Src/stusb4500.c ****       pdo_profile[pdo_number - 1].fix.USB_Communications_Capable = 1;
+  50:Src/stusb4500.c ****     } else {
+  51:Src/stusb4500.c ****       pdo_profile[pdo_number - 1].fix.Voltage = voltage_mv / 50;
+ 314              		.loc 1 51 7 is_stmt 1 view .LVU76
+ 315              		.loc 1 51 60 is_stmt 0 view .LVU77
+ 316 0074 3221     		movs	r1, #50
+ 317 0076 0198     		ldr	r0, [sp, #4]
+ 318 0078 FFF7FEFF 		bl	__aeabi_uidiv
+ 319              	.LVL31:
+ 320              		.loc 1 51 47 view .LVU78
+ 321 007c 124A     		ldr	r2, .L15
+ 322 007e E100     		lsls	r1, r4, #3
+ 323 0080 8005     		lsls	r0, r0, #22
+ 324 0082 000B     		lsrs	r0, r0, #12
+ 325 0084 8B58     		ldr	r3, [r1, r2]
+ 326 0086 114D     		ldr	r5, .L15+4
+ 327              	.LVL32:
+ 328              		.loc 1 51 47 view .LVU79
+ 329 0088 2B40     		ands	r3, r5
+ 330 008a 0343     		orrs	r3, r0
+ 331 008c 8B50     		str	r3, [r1, r2]
+ 332              	.LVL33:
+ 333              	.L13:
+  52:Src/stusb4500.c ****     }
+  53:Src/stusb4500.c **** 
+  54:Src/stusb4500.c ****     addr = DPM_SNK_PDO1 + (4 * (pdo_number - 1));
+ 334              		.loc 1 54 5 is_stmt 1 view .LVU80
+ 335              		.loc 1 54 25 is_stmt 0 view .LVU81
+ 336 008e A100     		lsls	r1, r4, #2
+ 337 0090 89B2     		uxth	r1, r1
+ 338              		.loc 1 54 10 view .LVU82
+ 339 0092 8531     		adds	r1, r1, #133
+ 340              	.LVL34:
+  55:Src/stusb4500.c ****     ret = write_register(STUSB4500_ADDR, addr, (uint8_t *) &pdo_profile[pdo_number - 1].d32, 4);
+ 341              		.loc 1 55 5 is_stmt 1 view .LVU83
+ 342              		.loc 1 55 60 is_stmt 0 view .LVU84
+ 343 0094 E200     		lsls	r2, r4, #3
+ 344 0096 0C4B     		ldr	r3, .L15
+ 345 0098 D218     		adds	r2, r2, r3
+ 346              		.loc 1 55 11 view .LVU85
+ 347 009a C9B2     		uxtb	r1, r1
+ARM GAS  C:\Users\0.0\AppData\Local\Temp\cc8GmXHj.s 			page 8
+
+
+ 348              	.LVL35:
+ 349              		.loc 1 55 11 view .LVU86
+ 350 009c 0423     		movs	r3, #4
+ 351 009e 2820     		movs	r0, #40
+ 352 00a0 FFF7FEFF 		bl	write_register
+ 353              	.LVL36:
+ 354              	.L11:
+  56:Src/stusb4500.c ****   }
+  57:Src/stusb4500.c **** 
+  58:Src/stusb4500.c ****   return ret;
+ 355              		.loc 1 58 3 is_stmt 1 view .LVU87
+  59:Src/stusb4500.c **** }
+ 356              		.loc 1 59 1 is_stmt 0 view .LVU88
+ 357 00a4 0DB0     		add	sp, sp, #52
+ 358              		@ sp needed
+ 359              	.LVL37:
+ 360              		.loc 1 59 1 view .LVU89
+ 361 00a6 F0BD     		pop	{r4, r5, r6, r7, pc}
+ 362              	.LVL38:
+ 363              	.L14:
+  48:Src/stusb4500.c ****       pdo_profile[pdo_number - 1].fix.USB_Communications_Capable = 1;
+ 364              		.loc 1 48 7 is_stmt 1 view .LVU90
+  48:Src/stusb4500.c ****       pdo_profile[pdo_number - 1].fix.USB_Communications_Capable = 1;
+ 365              		.loc 1 48 47 is_stmt 0 view .LVU91
+ 366 00a8 1300     		movs	r3, r2
+ 367 00aa 0A00     		movs	r2, r1
+ 368 00ac C858     		ldr	r0, [r1, r3]
+ 369 00ae 0749     		ldr	r1, .L15+4
+ 370 00b0 0840     		ands	r0, r1
+ 371 00b2 C821     		movs	r1, #200
+ 372 00b4 4902     		lsls	r1, r1, #9
+ 373 00b6 0143     		orrs	r1, r0
+ 374 00b8 D150     		str	r1, [r2, r3]
+  49:Src/stusb4500.c ****     } else {
+ 375              		.loc 1 49 7 is_stmt 1 view .LVU92
+  49:Src/stusb4500.c ****     } else {
+ 376              		.loc 1 49 66 is_stmt 0 view .LVU93
+ 377 00ba 9B18     		adds	r3, r3, r2
+ 378 00bc DA78     		ldrb	r2, [r3, #3]
+ 379 00be 0821     		movs	r1, #8
+ 380 00c0 0A43     		orrs	r2, r1
+ 381 00c2 DA70     		strb	r2, [r3, #3]
+ 382 00c4 E3E7     		b	.L13
+ 383              	.L16:
+ 384 00c6 C046     		.align	2
+ 385              	.L15:
+ 386 00c8 00000000 		.word	pdo_profile
+ 387 00cc FF03F0FF 		.word	-1047553
+ 388              		.cfi_endproc
+ 389              	.LFE40:
+ 391              		.section	.text.stusb_set_valid_pdo,"ax",%progbits
+ 392              		.align	1
+ 393              		.global	stusb_set_valid_pdo
+ 394              		.syntax unified
+ 395              		.code	16
+ 396              		.thumb_func
+ 398              	stusb_set_valid_pdo:
+ARM GAS  C:\Users\0.0\AppData\Local\Temp\cc8GmXHj.s 			page 9
+
+
+ 399              	.LVL39:
+ 400              	.LFB41:
+  60:Src/stusb4500.c **** 
+  61:Src/stusb4500.c **** HAL_StatusTypeDef stusb_set_valid_pdo(uint8_t valid_count) {
+ 401              		.loc 1 61 60 is_stmt 1 view -0
+ 402              		.cfi_startproc
+ 403              		@ args = 0, pretend = 0, frame = 8
+ 404              		@ frame_needed = 0, uses_anonymous_args = 0
+ 405              		.loc 1 61 60 is_stmt 0 view .LVU95
+ 406 0000 00B5     		push	{lr}
+ 407              	.LCFI7:
+ 408              		.cfi_def_cfa_offset 4
+ 409              		.cfi_offset 14, -4
+ 410 0002 83B0     		sub	sp, sp, #12
+ 411              	.LCFI8:
+ 412              		.cfi_def_cfa_offset 16
+ 413 0004 6B46     		mov	r3, sp
+ 414 0006 D871     		strb	r0, [r3, #7]
+  62:Src/stusb4500.c ****   HAL_StatusTypeDef ret = -1;
+ 415              		.loc 1 62 3 is_stmt 1 view .LVU96
+ 416              	.LVL40:
+  63:Src/stusb4500.c ****   if (valid_count <= 3) {
+ 417              		.loc 1 63 3 view .LVU97
+ 418              		.loc 1 63 19 is_stmt 0 view .LVU98
+ 419 0008 C3B2     		uxtb	r3, r0
+ 420              		.loc 1 63 6 view .LVU99
+ 421 000a 032B     		cmp	r3, #3
+ 422 000c 02D9     		bls	.L20
+  62:Src/stusb4500.c ****   HAL_StatusTypeDef ret = -1;
+ 423              		.loc 1 62 21 view .LVU100
+ 424 000e FF20     		movs	r0, #255
+ 425              	.LVL41:
+ 426              	.L18:
+  64:Src/stusb4500.c ****     ret = write_register(STUSB4500_ADDR, DPM_PDO_NUMB, &valid_count, 1);
+  65:Src/stusb4500.c ****   }
+  66:Src/stusb4500.c ****   return ret;
+ 427              		.loc 1 66 3 is_stmt 1 view .LVU101
+  67:Src/stusb4500.c **** }
+ 428              		.loc 1 67 1 is_stmt 0 view .LVU102
+ 429 0010 03B0     		add	sp, sp, #12
+ 430              		@ sp needed
+ 431 0012 00BD     		pop	{pc}
+ 432              	.LVL42:
+ 433              	.L20:
+  64:Src/stusb4500.c ****     ret = write_register(STUSB4500_ADDR, DPM_PDO_NUMB, &valid_count, 1);
+ 434              		.loc 1 64 5 is_stmt 1 view .LVU103
+  64:Src/stusb4500.c ****     ret = write_register(STUSB4500_ADDR, DPM_PDO_NUMB, &valid_count, 1);
+ 435              		.loc 1 64 11 is_stmt 0 view .LVU104
+ 436 0014 0123     		movs	r3, #1
+ 437 0016 6A46     		mov	r2, sp
+ 438 0018 0732     		adds	r2, r2, #7
+ 439 001a 7021     		movs	r1, #112
+ 440 001c 2820     		movs	r0, #40
+ 441              	.LVL43:
+  64:Src/stusb4500.c ****     ret = write_register(STUSB4500_ADDR, DPM_PDO_NUMB, &valid_count, 1);
+ 442              		.loc 1 64 11 view .LVU105
+ 443 001e FFF7FEFF 		bl	write_register
+ARM GAS  C:\Users\0.0\AppData\Local\Temp\cc8GmXHj.s 			page 10
+
+
+ 444              	.LVL44:
+  64:Src/stusb4500.c ****     ret = write_register(STUSB4500_ADDR, DPM_PDO_NUMB, &valid_count, 1);
+ 445              		.loc 1 64 11 view .LVU106
+ 446 0022 F5E7     		b	.L18
+ 447              		.cfi_endproc
+ 448              	.LFE41:
+ 450              		.section	.text.stusb_soft_reset,"ax",%progbits
+ 451              		.align	1
+ 452              		.global	stusb_soft_reset
+ 453              		.syntax unified
+ 454              		.code	16
+ 455              		.thumb_func
+ 457              	stusb_soft_reset:
+ 458              	.LFB42:
+  68:Src/stusb4500.c **** 
+  69:Src/stusb4500.c **** HAL_StatusTypeDef stusb_soft_reset() {
+ 459              		.loc 1 69 38 is_stmt 1 view -0
+ 460              		.cfi_startproc
+ 461              		@ args = 0, pretend = 0, frame = 8
+ 462              		@ frame_needed = 0, uses_anonymous_args = 0
+ 463 0000 10B5     		push	{r4, lr}
+ 464              	.LCFI9:
+ 465              		.cfi_def_cfa_offset 8
+ 466              		.cfi_offset 4, -8
+ 467              		.cfi_offset 14, -4
+ 468 0002 82B0     		sub	sp, sp, #8
+ 469              	.LCFI10:
+ 470              		.cfi_def_cfa_offset 16
+  70:Src/stusb4500.c ****   HAL_StatusTypeDef ret = -1;
+ 471              		.loc 1 70 3 view .LVU108
+ 472              	.LVL45:
+  71:Src/stusb4500.c ****   uint8_t data;
+ 473              		.loc 1 71 3 view .LVU109
+  72:Src/stusb4500.c **** 
+  73:Src/stusb4500.c ****   // read CC pin Attachement status
+  74:Src/stusb4500.c ****   ret = read_register(STUSB4500_ADDR, PORT_STATUS , &data, 1);
+ 474              		.loc 1 74 3 view .LVU110
+ 475              		.loc 1 74 9 is_stmt 0 view .LVU111
+ 476 0004 6B46     		mov	r3, sp
+ 477 0006 DC1D     		adds	r4, r3, #7
+ 478 0008 0123     		movs	r3, #1
+ 479 000a 2200     		movs	r2, r4
+ 480 000c 0E21     		movs	r1, #14
+ 481 000e 2820     		movs	r0, #40
+ 482 0010 FFF7FEFF 		bl	read_register
+ 483              	.LVL46:
+  75:Src/stusb4500.c ****   if((data & ATTACHED_STATUS) == 1) {
+ 484              		.loc 1 75 3 is_stmt 1 view .LVU112
+ 485              		.loc 1 75 12 is_stmt 0 view .LVU113
+ 486 0014 2378     		ldrb	r3, [r4]
+ 487              		.loc 1 75 5 view .LVU114
+ 488 0016 DB07     		lsls	r3, r3, #31
+ 489 0018 01D4     		bmi	.L24
+ 490              	.LVL47:
+ 491              	.L22:
+  76:Src/stusb4500.c ****     ret = write_register(STUSB4500_ADDR, TX_HEADER, (uint8_t *)0x000D, 2 );
+  77:Src/stusb4500.c ****     ret = write_register(STUSB4500_ADDR, CMD_CTRL, (uint8_t *)0x26, 1 );
+ARM GAS  C:\Users\0.0\AppData\Local\Temp\cc8GmXHj.s 			page 11
+
+
+  78:Src/stusb4500.c ****   }
+  79:Src/stusb4500.c ****   return ret;
+ 492              		.loc 1 79 3 is_stmt 1 view .LVU115
+  80:Src/stusb4500.c **** }
+ 493              		.loc 1 80 1 is_stmt 0 view .LVU116
+ 494 001a 02B0     		add	sp, sp, #8
+ 495              		@ sp needed
+ 496 001c 10BD     		pop	{r4, pc}
+ 497              	.L24:
+  76:Src/stusb4500.c ****     ret = write_register(STUSB4500_ADDR, TX_HEADER, (uint8_t *)0x000D, 2 );
+ 498              		.loc 1 76 5 is_stmt 1 view .LVU117
+  76:Src/stusb4500.c ****     ret = write_register(STUSB4500_ADDR, TX_HEADER, (uint8_t *)0x000D, 2 );
+ 499              		.loc 1 76 11 is_stmt 0 view .LVU118
+ 500 001e 0223     		movs	r3, #2
+ 501 0020 0D22     		movs	r2, #13
+ 502 0022 5121     		movs	r1, #81
+ 503 0024 2820     		movs	r0, #40
+ 504              	.LVL48:
+  76:Src/stusb4500.c ****     ret = write_register(STUSB4500_ADDR, TX_HEADER, (uint8_t *)0x000D, 2 );
+ 505              		.loc 1 76 11 view .LVU119
+ 506 0026 FFF7FEFF 		bl	write_register
+ 507              	.LVL49:
+  77:Src/stusb4500.c ****   }
+ 508              		.loc 1 77 5 is_stmt 1 view .LVU120
+  77:Src/stusb4500.c ****   }
+ 509              		.loc 1 77 11 is_stmt 0 view .LVU121
+ 510 002a 0123     		movs	r3, #1
+ 511 002c 2622     		movs	r2, #38
+ 512 002e 1A21     		movs	r1, #26
+ 513 0030 2820     		movs	r0, #40
+ 514 0032 FFF7FEFF 		bl	write_register
+ 515              	.LVL50:
+  77:Src/stusb4500.c ****   }
+ 516              		.loc 1 77 11 view .LVU122
+ 517 0036 F0E7     		b	.L22
+ 518              		.cfi_endproc
+ 519              	.LFE42:
+ 521              		.global	pdo_profile
+ 522              		.section	.bss.pdo_profile,"aw",%nobits
+ 523              		.align	2
+ 526              	pdo_profile:
+ 527 0000 00000000 		.space	24
+ 527      00000000 
+ 527      00000000 
+ 527      00000000 
+ 527      00000000 
+ 528              		.text
+ 529              	.Letext0:
+ 530              		.file 2 "C:/SysGCC/arm-eabi/arm-none-eabi/include/machine/_default_types.h"
+ 531              		.file 3 "C:/SysGCC/arm-eabi/arm-none-eabi/include/sys/_stdint.h"
+ 532              		.file 4 "Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f072xb.h"
+ 533              		.file 5 "Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_def.h"
+ 534              		.file 6 "Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_dma.h"
+ 535              		.file 7 "Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_i2c.h"
+ 536              		.file 8 "Inc/stusb4500.h"
+ARM GAS  C:\Users\0.0\AppData\Local\Temp\cc8GmXHj.s 			page 12
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 stusb4500.c
+C:\Users\0.0\AppData\Local\Temp\cc8GmXHj.s:19     .text.read_register:00000000 $t
+C:\Users\0.0\AppData\Local\Temp\cc8GmXHj.s:24     .text.read_register:00000000 read_register
+C:\Users\0.0\AppData\Local\Temp\cc8GmXHj.s:72     .text.read_register:00000020 $d
+C:\Users\0.0\AppData\Local\Temp\cc8GmXHj.s:77     .text.write_register:00000000 $t
+C:\Users\0.0\AppData\Local\Temp\cc8GmXHj.s:82     .text.write_register:00000000 write_register
+C:\Users\0.0\AppData\Local\Temp\cc8GmXHj.s:130    .text.write_register:00000020 $d
+C:\Users\0.0\AppData\Local\Temp\cc8GmXHj.s:135    .text.stusb_read_rdo:00000000 $t
+C:\Users\0.0\AppData\Local\Temp\cc8GmXHj.s:141    .text.stusb_read_rdo:00000000 stusb_read_rdo
+C:\Users\0.0\AppData\Local\Temp\cc8GmXHj.s:174    .text.stusb_update_pdo:00000000 $t
+C:\Users\0.0\AppData\Local\Temp\cc8GmXHj.s:180    .text.stusb_update_pdo:00000000 stusb_update_pdo
+C:\Users\0.0\AppData\Local\Temp\cc8GmXHj.s:386    .text.stusb_update_pdo:000000c8 $d
+C:\Users\0.0\AppData\Local\Temp\cc8GmXHj.s:526    .bss.pdo_profile:00000000 pdo_profile
+C:\Users\0.0\AppData\Local\Temp\cc8GmXHj.s:392    .text.stusb_set_valid_pdo:00000000 $t
+C:\Users\0.0\AppData\Local\Temp\cc8GmXHj.s:398    .text.stusb_set_valid_pdo:00000000 stusb_set_valid_pdo
+C:\Users\0.0\AppData\Local\Temp\cc8GmXHj.s:451    .text.stusb_soft_reset:00000000 $t
+C:\Users\0.0\AppData\Local\Temp\cc8GmXHj.s:457    .text.stusb_soft_reset:00000000 stusb_soft_reset
+C:\Users\0.0\AppData\Local\Temp\cc8GmXHj.s:523    .bss.pdo_profile:00000000 $d
+
+UNDEFINED SYMBOLS
+HAL_I2C_Mem_Read
+hi2c2
+HAL_I2C_Mem_Write
+__aeabi_uidiv

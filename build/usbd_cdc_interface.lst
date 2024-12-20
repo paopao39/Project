@@ -1,0 +1,247 @@
+ARM GAS  C:\Users\0.0\AppData\Local\Temp\cc4kSYJY.s 			page 1
+
+
+   1              		.cpu cortex-m0
+   2              		.arch armv6s-m
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 0
+  12              		.eabi_attribute 18, 4
+  13              		.file	"usbd_cdc_interface.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.file 1 "Src/usbd_cdc_interface.c"
+  18              		.section	.text.CDC_Itf_DeInit,"ax",%progbits
+  19              		.align	1
+  20              		.syntax unified
+  21              		.code	16
+  22              		.thumb_func
+  24              	CDC_Itf_DeInit:
+  25              	.LFB38:
+   1:Src/usbd_cdc_interface.c **** #include "main.h"
+   2:Src/usbd_cdc_interface.c **** 
+   3:Src/usbd_cdc_interface.c **** USBD_CDC_LineCodingTypeDef LineCoding =
+   4:Src/usbd_cdc_interface.c ****   {
+   5:Src/usbd_cdc_interface.c ****     115200, /* baud rate*/
+   6:Src/usbd_cdc_interface.c ****     0x00,   /* stop bits-1*/
+   7:Src/usbd_cdc_interface.c ****     0x00,   /* parity - none*/
+   8:Src/usbd_cdc_interface.c ****     0x08    /* nb. of bits 8*/
+   9:Src/usbd_cdc_interface.c ****   };
+  10:Src/usbd_cdc_interface.c **** 
+  11:Src/usbd_cdc_interface.c **** extern USBD_HandleTypeDef  USBD_Device;
+  12:Src/usbd_cdc_interface.c **** 
+  13:Src/usbd_cdc_interface.c **** static int8_t CDC_Itf_Init     (void);
+  14:Src/usbd_cdc_interface.c **** static int8_t CDC_Itf_DeInit   (void);
+  15:Src/usbd_cdc_interface.c **** static int8_t CDC_Itf_Control  (uint8_t cmd, uint8_t* pbuf, uint16_t length);
+  16:Src/usbd_cdc_interface.c **** static int8_t CDC_Itf_Receive  (uint8_t* pbuf, uint32_t *Len);
+  17:Src/usbd_cdc_interface.c **** 
+  18:Src/usbd_cdc_interface.c **** static void ComPort_Config(void);
+  19:Src/usbd_cdc_interface.c **** 
+  20:Src/usbd_cdc_interface.c **** USBD_CDC_ItfTypeDef USBD_CDC_fops =
+  21:Src/usbd_cdc_interface.c **** {
+  22:Src/usbd_cdc_interface.c ****   CDC_Itf_Init,
+  23:Src/usbd_cdc_interface.c ****   CDC_Itf_DeInit,
+  24:Src/usbd_cdc_interface.c ****   CDC_Itf_Control,
+  25:Src/usbd_cdc_interface.c ****   CDC_Itf_Receive
+  26:Src/usbd_cdc_interface.c **** };
+  27:Src/usbd_cdc_interface.c **** 
+  28:Src/usbd_cdc_interface.c **** static int8_t CDC_Itf_Init(void)
+  29:Src/usbd_cdc_interface.c **** {
+  30:Src/usbd_cdc_interface.c ****   USBD_CDC_SetTxBuffer(&USBD_Device, UserTxBuffer, 0);
+  31:Src/usbd_cdc_interface.c ****   USBD_CDC_SetRxBuffer(&USBD_Device, UserRxBuffer);
+  32:Src/usbd_cdc_interface.c **** 
+  33:Src/usbd_cdc_interface.c ****   return (USBD_OK);
+ARM GAS  C:\Users\0.0\AppData\Local\Temp\cc4kSYJY.s 			page 2
+
+
+  34:Src/usbd_cdc_interface.c **** }
+  35:Src/usbd_cdc_interface.c **** 
+  36:Src/usbd_cdc_interface.c **** static int8_t CDC_Itf_DeInit   (void){
+  26              		.loc 1 36 38 view -0
+  27              		.cfi_startproc
+  28              		@ args = 0, pretend = 0, frame = 0
+  29              		@ frame_needed = 0, uses_anonymous_args = 0
+  30              		@ link register save eliminated.
+  37:Src/usbd_cdc_interface.c **** 
+  38:Src/usbd_cdc_interface.c **** }
+  31              		.loc 1 38 1 view .LVU1
+  32              		@ sp needed
+  33 0000 7047     		bx	lr
+  34              		.cfi_endproc
+  35              	.LFE38:
+  37              		.section	.text.CDC_Itf_Control,"ax",%progbits
+  38              		.align	1
+  39              		.syntax unified
+  40              		.code	16
+  41              		.thumb_func
+  43              	CDC_Itf_Control:
+  44              	.LVL0:
+  45              	.LFB39:
+  39:Src/usbd_cdc_interface.c **** 
+  40:Src/usbd_cdc_interface.c **** static int8_t CDC_Itf_Control  (uint8_t cmd, uint8_t* pbuf, uint16_t length){
+  46              		.loc 1 40 77 view -0
+  47              		.cfi_startproc
+  48              		@ args = 0, pretend = 0, frame = 0
+  49              		@ frame_needed = 0, uses_anonymous_args = 0
+  50              		@ link register save eliminated.
+  41:Src/usbd_cdc_interface.c **** 
+  42:Src/usbd_cdc_interface.c **** }
+  51              		.loc 1 42 1 view .LVU3
+  52              	.LVL1:
+  53              		.loc 1 42 1 is_stmt 0 view .LVU4
+  54              		@ sp needed
+  55 0000 7047     		bx	lr
+  56              		.cfi_endproc
+  57              	.LFE39:
+  59              		.section	.text.CDC_Itf_Receive,"ax",%progbits
+  60              		.align	1
+  61              		.syntax unified
+  62              		.code	16
+  63              		.thumb_func
+  65              	CDC_Itf_Receive:
+  66              	.LVL2:
+  67              	.LFB40:
+  43:Src/usbd_cdc_interface.c **** 
+  44:Src/usbd_cdc_interface.c **** static int8_t CDC_Itf_Receive  (uint8_t* pbuf, uint32_t *Len){
+  68              		.loc 1 44 62 is_stmt 1 view -0
+  69              		.cfi_startproc
+  70              		@ args = 0, pretend = 0, frame = 0
+  71              		@ frame_needed = 0, uses_anonymous_args = 0
+  72              		@ link register save eliminated.
+  45:Src/usbd_cdc_interface.c **** 
+  46:Src/usbd_cdc_interface.c **** }
+  73              		.loc 1 46 1 view .LVU6
+ARM GAS  C:\Users\0.0\AppData\Local\Temp\cc4kSYJY.s 			page 3
+
+
+  74              	.LVL3:
+  75              		.loc 1 46 1 is_stmt 0 view .LVU7
+  76              		@ sp needed
+  77 0000 7047     		bx	lr
+  78              		.cfi_endproc
+  79              	.LFE40:
+  81              		.section	.text.CDC_Itf_Init,"ax",%progbits
+  82              		.align	1
+  83              		.syntax unified
+  84              		.code	16
+  85              		.thumb_func
+  87              	CDC_Itf_Init:
+  88              	.LFB37:
+  29:Src/usbd_cdc_interface.c ****   USBD_CDC_SetTxBuffer(&USBD_Device, UserTxBuffer, 0);
+  89              		.loc 1 29 1 is_stmt 1 view -0
+  90              		.cfi_startproc
+  91              		@ args = 0, pretend = 0, frame = 0
+  92              		@ frame_needed = 0, uses_anonymous_args = 0
+  93 0000 10B5     		push	{r4, lr}
+  94              	.LCFI0:
+  95              		.cfi_def_cfa_offset 8
+  96              		.cfi_offset 4, -8
+  97              		.cfi_offset 14, -4
+  30:Src/usbd_cdc_interface.c ****   USBD_CDC_SetRxBuffer(&USBD_Device, UserRxBuffer);
+  98              		.loc 1 30 3 view .LVU9
+  99 0002 0649     		ldr	r1, .L5
+ 100 0004 064C     		ldr	r4, .L5+4
+ 101 0006 0022     		movs	r2, #0
+ 102 0008 2000     		movs	r0, r4
+ 103 000a FFF7FEFF 		bl	USBD_CDC_SetTxBuffer
+ 104              	.LVL4:
+  31:Src/usbd_cdc_interface.c **** 
+ 105              		.loc 1 31 3 view .LVU10
+ 106 000e 0549     		ldr	r1, .L5+8
+ 107 0010 2000     		movs	r0, r4
+ 108 0012 FFF7FEFF 		bl	USBD_CDC_SetRxBuffer
+ 109              	.LVL5:
+  33:Src/usbd_cdc_interface.c **** }
+ 110              		.loc 1 33 3 view .LVU11
+  34:Src/usbd_cdc_interface.c **** 
+ 111              		.loc 1 34 1 is_stmt 0 view .LVU12
+ 112 0016 0020     		movs	r0, #0
+ 113              		@ sp needed
+ 114 0018 10BD     		pop	{r4, pc}
+ 115              	.L6:
+ 116 001a C046     		.align	2
+ 117              	.L5:
+ 118 001c 00000000 		.word	UserTxBuffer
+ 119 0020 00000000 		.word	USBD_Device
+ 120 0024 00000000 		.word	UserRxBuffer
+ 121              		.cfi_endproc
+ 122              	.LFE37:
+ 124              		.global	USBD_CDC_fops
+ 125              		.section	.data.USBD_CDC_fops,"aw"
+ 126              		.align	2
+ 129              	USBD_CDC_fops:
+ 130 0000 00000000 		.word	CDC_Itf_Init
+ARM GAS  C:\Users\0.0\AppData\Local\Temp\cc4kSYJY.s 			page 4
+
+
+ 131 0004 00000000 		.word	CDC_Itf_DeInit
+ 132 0008 00000000 		.word	CDC_Itf_Control
+ 133 000c 00000000 		.word	CDC_Itf_Receive
+ 134              		.global	LineCoding
+ 135              		.section	.data.LineCoding,"aw"
+ 136              		.align	2
+ 139              	LineCoding:
+ 140 0000 00C20100 		.word	115200
+ 141 0004 00       		.byte	0
+ 142 0005 00       		.byte	0
+ 143 0006 08       		.byte	8
+ 144 0007 00       		.space	1
+ 145              		.global	UserTxBuffer
+ 146              		.section	.bss.UserTxBuffer,"aw",%nobits
+ 147              		.align	2
+ 150              	UserTxBuffer:
+ 151 0000 00000000 		.space	512
+ 151      00000000 
+ 151      00000000 
+ 151      00000000 
+ 151      00000000 
+ 152              		.global	UserRxBuffer
+ 153              		.section	.bss.UserRxBuffer,"aw",%nobits
+ 154              		.align	2
+ 157              	UserRxBuffer:
+ 158 0000 00000000 		.space	512
+ 158      00000000 
+ 158      00000000 
+ 158      00000000 
+ 158      00000000 
+ 159              		.text
+ 160              	.Letext0:
+ 161              		.file 2 "C:/SysGCC/arm-eabi/arm-none-eabi/include/machine/_default_types.h"
+ 162              		.file 3 "C:/SysGCC/arm-eabi/arm-none-eabi/include/sys/_stdint.h"
+ 163              		.file 4 "Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_def.h"
+ 164              		.file 5 "Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc/usbd_cdc.h"
+ 165              		.file 6 "Inc/usbd_cdc_interface.h"
+ARM GAS  C:\Users\0.0\AppData\Local\Temp\cc4kSYJY.s 			page 5
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 usbd_cdc_interface.c
+C:\Users\0.0\AppData\Local\Temp\cc4kSYJY.s:19     .text.CDC_Itf_DeInit:00000000 $t
+C:\Users\0.0\AppData\Local\Temp\cc4kSYJY.s:24     .text.CDC_Itf_DeInit:00000000 CDC_Itf_DeInit
+C:\Users\0.0\AppData\Local\Temp\cc4kSYJY.s:38     .text.CDC_Itf_Control:00000000 $t
+C:\Users\0.0\AppData\Local\Temp\cc4kSYJY.s:43     .text.CDC_Itf_Control:00000000 CDC_Itf_Control
+C:\Users\0.0\AppData\Local\Temp\cc4kSYJY.s:60     .text.CDC_Itf_Receive:00000000 $t
+C:\Users\0.0\AppData\Local\Temp\cc4kSYJY.s:65     .text.CDC_Itf_Receive:00000000 CDC_Itf_Receive
+C:\Users\0.0\AppData\Local\Temp\cc4kSYJY.s:82     .text.CDC_Itf_Init:00000000 $t
+C:\Users\0.0\AppData\Local\Temp\cc4kSYJY.s:87     .text.CDC_Itf_Init:00000000 CDC_Itf_Init
+C:\Users\0.0\AppData\Local\Temp\cc4kSYJY.s:118    .text.CDC_Itf_Init:0000001c $d
+C:\Users\0.0\AppData\Local\Temp\cc4kSYJY.s:150    .bss.UserTxBuffer:00000000 UserTxBuffer
+C:\Users\0.0\AppData\Local\Temp\cc4kSYJY.s:157    .bss.UserRxBuffer:00000000 UserRxBuffer
+C:\Users\0.0\AppData\Local\Temp\cc4kSYJY.s:129    .data.USBD_CDC_fops:00000000 USBD_CDC_fops
+C:\Users\0.0\AppData\Local\Temp\cc4kSYJY.s:126    .data.USBD_CDC_fops:00000000 $d
+C:\Users\0.0\AppData\Local\Temp\cc4kSYJY.s:139    .data.LineCoding:00000000 LineCoding
+C:\Users\0.0\AppData\Local\Temp\cc4kSYJY.s:136    .data.LineCoding:00000000 $d
+C:\Users\0.0\AppData\Local\Temp\cc4kSYJY.s:147    .bss.UserTxBuffer:00000000 $d
+C:\Users\0.0\AppData\Local\Temp\cc4kSYJY.s:154    .bss.UserRxBuffer:00000000 $d
+
+UNDEFINED SYMBOLS
+USBD_CDC_SetTxBuffer
+USBD_CDC_SetRxBuffer
+USBD_Device
